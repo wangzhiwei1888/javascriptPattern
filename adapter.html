@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+
+function Bird(){
+
+	this.name = 'bird';
+	this.color = 'none';
+}
+
+Bird.prototype.fly = function(){
+
+	throw new Error('此方法必须覆盖!');
+}
+
+function Swallow(){
+
+	Bird.apply(this,arguments);
+
+	if(arguments.length!=0){
+
+		this.name = arguments[0];
+		this.color = arguments[1];
+	}
+}
+
+Swallow.prototype = new Bird();
+Swallow.prototype.constructor = Swallow;
+
+Swallow.prototype.fly = function(){
+
+	console.log('swallow fly!');
+}
+
+Swallow.prototype.say = function(){
+
+	console.log('swallow say!');
+}
+
+
+function Turkey(){
+	
+	Bird.apply(this,arguments);
+
+	if(arguments.length!=0){
+
+		this.name = arguments[0];
+		this.color = arguments[1];
+	}
+
+}
+
+Turkey.prototype = new Bird();
+Turkey.prototype.constructor = Turkey;
+
+Turkey.prototype.fly = function(){
+
+	console.log('Turkey fly!');
+}
+
+Turkey.prototype.Turkeysay = function(){
+
+	console.log('Turkey say!');
+}
+
+
+var bird = new Bird();
+var swallow = new Swallow();
+var turkey = new Turkey();
+
+
+swallow.say();
+
+turkey.Turkeysay();
+
+//我们想改变turkey.Turkeysay()写法 *.say()，以统一接口。
+
+
+function TurkeyAddSay(turkey){
+
+	Turkey.apply(this);
+	this.turkey = turkey;
+
+}
+
+TurkeyAddSay.prototype = new Turkey();
+TurkeyAddSay.prototype.constructor = TurkeyAddSay;
+
+
+TurkeyAddSay.prototype.say = function(){
+
+	this.turkey.Turkeysay();
+}
+
+var addsay = new TurkeyAddSay(turkey);
+
+
+addsay.say();
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

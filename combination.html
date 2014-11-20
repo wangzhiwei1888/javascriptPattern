@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组合模式</title>
+</head>
+<body>
+
+<script type="text/javascript">
+	
+function MenuComponent(name,desc){
+
+	this.name = name || '菜单';
+	this.desc = desc || '未命名';
+}
+
+MenuComponent.prototype.getName =function(){
+
+	return this.name;
+}
+
+MenuComponent.prototype.getDesc =function(){
+
+	return this.desc;
+}
+
+MenuComponent.prototype.print =function(){
+
+	throw new Error('此方法必须重写');
+}
+
+/***************** MenuItem *********************/
+function MenuItem(name,desc,price){
+
+	MenuComponent.apply(this,[name,desc]);
+
+	this.price = price;
+}
+
+MenuItem.prototype = new MenuComponent();
+MenuItem.prototype.constructor = MenuItem;
+
+MenuItem.prototype.getPrice = function(){
+
+	return this.price;
+}
+
+
+MenuItem.prototype.print = function(){
+
+	console.log('菜单项:'+this.getName()+'描述:'+this.getDesc()+'价格:'+this.getPrice());
+
+}
+
+/***************** Menu *********************/
+
+function Menu(name,desc,type){
+
+	MenuComponent.apply(this,[name,desc]);
+	this.type = type;
+	this.menuComps=[];
+
+}
+
+Menu.prototype = new MenuComponent();
+Menu.prototype.constructor = Menu;
+
+Menu.prototype.getType = function(){
+
+	return this.type;
+}
+
+
+Menu.prototype.print = function(){
+
+	console.log('菜单项:'+this.getName()+'描述:'+this.getDesc()+'类型:'+this.getType());
+	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+
+	for(var i=0;i<this.menuComps.length;i++){
+
+		this.menuComps[i].print();
+	}
+
+}
+
+Menu.prototype.add = function(obj){
+
+	this.menuComps.push(obj);
+
+}
+
+Menu.prototype.remove = function(obj){
+
+	for(var i=0;i<this.menuComps.length;i++){
+
+		if(this.menuComps[i] === obj){
+
+			this.menuComps.splice(i,1);
+			break;
+		}
+	}
+}
+
+
+Menu.prototype.getChild = function(index){
+
+	return this.menuComps[index];
+}
+
+function MenuBook(menus){
+
+	this.menus = menus;
+}
+
+
+MenuBook.prototype.print = function(){
+
+	this.menus.print();
+}
+
+
+
+
+
+
+
+
+var item1 = new MenuItem("egg","turkey eggs","10$");
+var item2 = new MenuItem("pig","my hometown pigs","120$");
+
+var menu1 = new Menu("家常","东北家常菜","type1");
+var menu2 = new Menu("清淡","素食","type2");
+//var menuall = new Menu("all","整体菜单1","type3");
+
+
+var menubook = new MenuBook(menu1)
+
+menu1.add(item1);
+menu1.add(item2);
+
+/*
+menu2.add(item1);
+menu2.add(item2);
+menu1.add(menu2);
+*/
+
+
+menubook.print();
+
+
+</script>
+
+
+</body>
+</html>

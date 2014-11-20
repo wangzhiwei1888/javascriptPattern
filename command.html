@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var bugManager = {
+
+	getInfo:function(name,id){
+
+		return "This is "+ name +", it's id is :"+ id;
+	},
+	buy:function(name,id){
+
+		return "you have successful by "+name+",it's id is :"+id;
+	},
+	book:function(name,id){
+
+		return "you have successful booked "+name + "it's id is :"+ id;
+	}
+
+}
+
+bugManager.execute = function(command){
+	
+	//console.log(command['request'])
+	var com = command['request']
+	
+	//console.log(bugManager[com](command.name,command.id));
+	return bugManager[com](command.name,command.id);
+}
+	
+var str1 = bugManager.execute({request:"getInfo",name:"computer",id:"1231"});
+var str2 = bugManager.execute({request:"buy",name:"computer",id:"1231"});
+var str3 = bugManager.execute({request:"book",name:"computer",id:"1231"});
+
+console.log(str1);
+console.log(str2);
+console.log(str3);
+
+</script>
+
+
+</body>
+</html>

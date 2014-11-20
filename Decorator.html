@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+function Computer(){
+
+	this.cost = function(){
+
+		return 1000;
+	}
+}
+
+
+function Memory(computer){
+
+	this.cost = function(){
+
+		return computer.cost()+100;
+	}
+
+}
+
+function BlurayDriver(computer){
+
+	this.cost = function(){
+
+		return computer.cost()+200;
+	}
+
+}
+
+
+var computer1 = new Computer();
+var computer2 = new Memory(computer1);
+var computer3 = new BlurayDriver(computer1);
+
+console.log("example1:");
+console.log(computer1.cost());
+console.log(computer2.cost());
+console.log(computer3.cost());
+
+var computer4 = new BlurayDriver(computer3);
+
+console.log(computer4.cost());
+
+
+console.log("example2:");
+
+function Concrete(){
+
+	this.perform = function(){
+
+		this.pre();
+		console.log("something");
+		this.after();
+	}
+}
+
+function AbstractDecorator(decorated){
+
+	this.perform = function(){
+
+		decorated.perform();
+	}
+}
+
+function ConcreteDecorator1(decorated){
+
+	AbstractDecorator.call(this,decorated);
+
+	decorated.pre = function(){
+
+		console.log("pre1:this is doing prel");
+	};
+
+	decorated.after = function(){
+
+		console.log("after1:this is doing after1");
+
+	}
+
+}
+
+function ConcreteDecorator2(decorated){
+
+	AbstractDecorator.call(this,decorated);
+
+	decorated.pre = function(){
+
+		console.log("pre2:this is doing prel");
+	};
+
+	decorated.after = function(){
+
+		console.log("after2:this is doing after1");
+
+	}
+
+}
+
+
+
+
+
+var con = new Concrete();
+var cd1 = new ConcreteDecorator1(con);
+
+cd1.perform();
+
+
+var cd2 = new ConcreteDecorator2(con);
+
+cd2.perform();
+//有问题了
+cd1.perform();
+
+var decorated3 = new ConcreteDecorator1(cd1);
+decorated3.perform();
+var decorated4 = new ConcreteDecorator2(cd2);
+decorated4.perform();
+
+
+
+</script>
+
+
+</body>
+</html>
